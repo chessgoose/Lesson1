@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+
+<style>
+	body {
+	  font-family: calibri;
+	  color: blue;
+	  border: ridge 1px blue;
+	  padding: 10px;
+	}
+</style>
+<html>
+	<h1> TO DO APP </h1>
+	<h2> What you need to do today: </h2>
+	<ul>
+		<li> Write some HTML code </li>
+		<li> Go shopping </li>
+		<li> Write a 500 page essay </li>
+	<ul>
+</html>
