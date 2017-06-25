@@ -1,19 +1,69 @@
 <!DOCTYPE html>
 
-<style>
-	body {
-	  font-family: calibri;
-	  color: blue;
-	  border: ridge 1px blue;
-	  padding: 10px;
-	}
-</style>
+
 <html>
-	<h1> TO DO APP </h1>
-	<h2> What you need to do today: </h2>
-	<ul>
-		<li> Write some HTML code </li>
-		<li> Go shopping </li>
-		<li> Write a 500 page essay </li>
-	<ul>
+	<style>
+		body {
+	  		font-family: calibri;
+	  		color: blue;
+	  		border: ridge 1px blue;
+	 		padding: 10px;
+	  		background-color: white;
+		}
+		#finishedButton, #backgroundColor {
+			text-align: center;
+		}
+	</style>
+	<body id = "body">
+		<h1> TO DO APP </h1>
+		<h2> What you need to do today: </h2>
+		<ul>
+			<li id = "firstItem"> Write some HTML code </li>
+			<li> Go shopping </li>
+			<li> Write a 500 page essay </li>
+		</ul>
+		<button type = "button" id = "finishedButton"> I finished the first task!</button>
+		<button type = "button" id = "backgroundButton"> Randomize background color</button>
+	<body>
+	<script>
+		var finishedButton = document.getElementById("finishedButton");
+		var backgroundButton = document.getElementById("backgroundButton");
+		var body = document.getElementById("body");
+
+		//Array of colors for the randomizer to select.
+		var colorArray = ["green","white","red","yellow"];
+
+		//Boolean to determine if previously pressed to allow cancellation.
+		var pressedOn = false;
+		
+		var clickOnFinishedButton = function(){
+
+			//Get the item, change the text, and then change the color
+			var firstItem = document.getElementById("firstItem");
+
+			//If statement allowing you to cancel it if you accidentally press the button.
+			if(pressedOn === false){
+				firstItem.innerHTML = "Write some HTML code (DONE)";
+				finishedButton.innerHTML = "Cancel";
+				firstItem.style.color = "green";
+				pressedOn = true;
+			} else {
+				firstItem.innerHTML = "Write some HTML code";
+				finishedButton.innerHTML = "I finished the first task!";
+				firstItem.style.color = "blue";
+				pressedOn = false;
+			}
+		};
+
+		var clickOnBackgroundButton = function(){
+
+			//Selects a random number that in turn determines random color, which is applied to the background color.
+			body.style.backgroundColor = colorArray[Math.floor(Math.random() * 4)];
+		};
+
+		//Add the event listeners
+		finishedButton.addEventListener('click', clickOnFinishedButton);
+		backgroundButton.addEventListener('click', clickOnBackgroundButton);
+
+	</script>
 </html>
