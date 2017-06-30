@@ -17,53 +17,124 @@
 	<body id = "body">
 		<h1> TO DO APP </h1>
 		<h2> What you need to do today: </h2>
-		<ul>
-			<li id = "firstItem"> Write some HTML code </li>
-			<li> Go shopping </li>
-			<li> Write a 500 page essay </li>
-		</ul>
-		<button type = "button" id = "finishedButton"> I finished the first task!</button>
-		<button type = "button" id = "backgroundButton"> Randomize background color</button>
-	<body>
+		<form id = "checkBoxForm">
+			<input type = "checkbox" onClick = "clickOnCheck1()"> <label id = "select1"> Write some HTML code </label> <br>
+			<input type = "checkbox"  onClick = "clickOnCheck2()"> <label id = "select2"> Go shopping </label> <br>
+			<input type = "checkbox" onClick = "clickOnCheck3()"> <label id = "select3">  Write a 500 page essay </label> <br>
+		</form>
+		<br>
+		<form>
+			<label> Create new To-Do Item </label> <input id = "createNewItem" type = "text">
+			<button type = "button" id = "newButton"> Create </button>
+		</form>
+		<br>
+		<button type = "button" id = "backgroundButton"> Randomize background color</button> <br>
+		
+
+	</body>
 	<script>
-		var finishedButton = document.getElementById("finishedButton");
 		var backgroundButton = document.getElementById("backgroundButton");
+		var newButton = document.getElementById("newButton");
 		var body = document.getElementById("body");
 
 		//Array of colors for the randomizer to select.
-		var colorArray = ["green","white","red","yellow"];
+		var colorArray = ["white","green","red","yellow"];
 
-		//Boolean to determine if previously pressed to allow cancellation.
-		var pressedOn = false;
+		//Last number picked by the randomize function.  Page background starts out as white so it is 0.
+		var lastNumberPicked = 0;
+
+		//I couldn't find a more efficient way of doing it, so...
+
+		var select1 = document.getElementById("select1");
+		var select2 = document.getElementById("select2");
+		var select3 = document.getElementById("select3");
+
+		var checkClick1 = false;
+		var checkClick2 = false;
+		var checkClick3 = false;
 		
-		var clickOnFinishedButton = function(){
+		var select1String = select1.innerHTML.toString();
+		var select2String = select2.innerHTML.toString();
+		var select3String = select3.innerHTML.toString();
 
-			//Get the item, change the text, and then change the color
-			var firstItem = document.getElementById("firstItem");
-
-			//If statement allowing you to cancel it if you accidentally press the button.
-			if(pressedOn === false){
-				firstItem.innerHTML = "Write some HTML code (DONE)";
-				finishedButton.innerHTML = "Cancel";
-				firstItem.style.color = "green";
-				pressedOn = true;
+		var clickOnCheck1 = function(){
+			if(checkClick1 === false){
+				select1.innerHTML += "(DONE)";
+				select1.style.color = "green";
+				checkClick1 = true;
 			} else {
-				firstItem.innerHTML = "Write some HTML code";
-				finishedButton.innerHTML = "I finished the first task!";
-				firstItem.style.color = "blue";
-				pressedOn = false;
+				select1.innerHTML = select1String;
+				select1.style.color = "blue";
+				checkClick1 = false;
 			}
 		};
 
-		var clickOnBackgroundButton = function(){
-
-			//Selects a random number that in turn determines random color, which is applied to the background color.
-			body.style.backgroundColor = colorArray[Math.floor(Math.random() * 4)];
+		var clickOnCheck2 = function(){
+			if(checkClick2 === false){
+				select2.innerHTML += " (DONE)"
+				select2.style.color = "green";
+				checkClick2 = true;
+			} else {
+				select2.innerHTML = select2String;
+				select2.style.color = "blue";
+				checkClick2 = false;
+			}
 		};
 
-		//Add the event listeners
-		finishedButton.addEventListener('click', clickOnFinishedButton);
+		var clickOnCheck3 = function(){
+			if(checkClick3 === false){
+				select3.innerHTML += " (DONE)"
+				select3.style.color = "green";
+				checkClick3 = true;
+			} else {
+				select3.innerHTML = select3String;
+				select3.style.color = "blue";
+				checkClick3 = false;
+			}
+		};
+
+		//Function now ensures that you pick a different number/color every time.
+		var clickOnBackgroundButton = function(){
+
+			//Pick the number.
+			var pickRandom = Math.floor(Math.random() * 4);
+
+			//Mechanism to pick is below.  If it does not equal the last number picked, then set background color to color picked and change the last number picked to the color you just picked.  Otherwise, repick by recalling the function.
+			if(pickRandom !== lastNumberPicked) {
+				body.style.backgroundColor = colorArray[pickRandom];
+				lastNumberPicked = pickRandom;
+			} else {
+				clickOnBackgroundButton();
+			}
+		};
+
+		var createNewCheckbox = function(id){
+  			var inputElement = document.createElement("input");
+  			inputElement.type = 'checkbox';
+  			inputElement.id = id;
+   			return inputElement;
+		};
+
+		var clickOnNewButton = function(){
+			var labelElement = document.createElement("label");
+			var aNewBreak = document.createElement("br");
+			var userInput = document.getElementById("createNewItem").value;
+			labelElement.innerHTML = " " + userInput;
+			labelElement.appendChild(aNewBreak);
+			checkBoxForm.appendChild(createNewCheckbox("hi"));
+			checkBoxForm.appendChild(labelElement);
+			if(hi.checked === true){
+				labelElement.style.color = "green";
+				labelElement.innerHTML = labelElement.innerHTML + "(DONE)";
+			} else {
+				labelElement.innerHTML = " " + document.getElementById("createNewItem").value;
+			}
+		};
+
+
+		//Add the event listener
 		backgroundButton.addEventListener('click', clickOnBackgroundButton);
+		newButton.addEventListener('click',clickOnNewButton);
 
 	</script>
 </html>
