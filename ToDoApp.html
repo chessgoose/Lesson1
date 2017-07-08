@@ -2,12 +2,8 @@
 
 <html>
 <head>
-    <link href="http://cdn.metroui.org.ua/css/metro.min.css" rel="stylesheet">
-    <link href="http://cdn.metroui.org.ua/css/metro-colors.min.css" rel="stylesheet">
-    <link href="http://cdn.metroui.org.ua/css/metro-schemes.min.css" rel="stylesheet">
-    <link href="http://cdn.metroui.org.ua/css/metro-icons.min.css" rel="stylesheet">
-    <link href="http://cdn.metroui.org.ua/css/metro-responsive.min.css" rel="stylesheet">
-    <link href="http://cdn.metroui.org.ua/css/metro-rtl.min.css " rel="stylesheet"> 
+    <link href="util/css/metro.min.css" rel="stylesheet">
+    <link href="util/css/metro-colors.min.css" rel="stylesheet">
     <style>
     	body {
     		padding: 10px;
@@ -17,9 +13,12 @@
     		padding: 10px;
     		width: 400px;
     	}
-    	#select1, #select2, #select3 {
+    	#checkBoxForm label {
     		color: white;
     	} 
+        #checkBoxForm input[type="checkbox"] {
+            margin-right: 5px
+        } 
     </style>
 </head>
 	<body id="body" >
@@ -28,14 +27,19 @@
 		<h2 class = "bd-blue"> What you need to do today: </h2>
 		<br>
 		<form id = "checkBoxForm" class = "bg-blue bg-active-lightBlue">
-			<input type = "checkbox"> <label id = "select1"> Write some HTML code </label> <br>
-			<input type = "checkbox"> <label id = "select2"> Go shopping </label> <br>
-			<input type = "checkbox"> <label id = "select3">  Write a 500 page essay </label> 
+			<input type = "checkbox" />
+            <label id = "select1">Write some HTML code</label>
+            <br>
+			<input type = "checkbox" />
+            <label id = "select2">Go shopping</label>
+            <br>
+			<input type = "checkbox" />
+            <label id = "select3">Write a 500 page essay</label> 
 		</form>
 		<br>
 			<label> Create new To-Do Item </label>
 			<div class="input-control text">
-   				 <input type="text" id="createNewItem" placeholder="Type your to-do item here">
+   				 <input type="text" id="createNewItemInput" placeholder="Type your to-do item here">
 			</div>
 			<button type = "button" id = "newButton" class = "button rounded"> Create </button>
 		<br>
@@ -94,13 +98,13 @@
 		var clickOnNewButton = function(){
 			var labelElement = document.createElement("label");
 			var aNewBreak = document.createElement("br");
-			var userInput = document.getElementById("createNewItem").value;
+			var userInput = document.getElementById("createNewItemInput").value;
 			labelElement.innerHTML = " " + userInput;
 			labelElement.style.color = "white";
 			checkBoxForm.appendChild(createNewCheckbox());
 			checkBoxForm.appendChild(labelElement);
 			checkBoxForm.appendChild(aNewBreak);
-			document.getElementById("createNewItem").value = "";
+			document.getElementById("createNewItemInput").value = "";
 		};
 
 		var enterFunction = function(event){
@@ -119,61 +123,51 @@
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 	<script>
-		var backgroundButton = $("#backgroundButton")[0];
-		var newButton = $("#newButton")[0];
-		var body = $("#body")[0];
-		var checkBoxesArray = $("input[type='checkbox']");
-		var arrayOfLabels = $("#checkBoxForm label");
 		var colorArray = ["white","green","red","yellow"];
 		var lastNumberPicked = 0;
 
-		console.log(checkBoxesArray);
-		console.log(arrayOfLabels);
+        function onCheckboxClicked(){
+            if(this.checked){
+                //Not sure if this is the way to access the label element.
+                $(this).next().css("color","green");
+                var curText = $(this).next().text()
+                $(this).next().text(curText +" (DONE)");
+            } else {
+                $(this).next().css("color","white");
+                var curText = $(this).next().text()
+                $(this).next().text(curText.replace(" (DONE)", ""));
+            }
+        }
+
+        $("#checkBoxForm").on("click","input[type='checkbox']",onCheckboxClicked)
 
 
-		var colorChange = function(){
-			if(this.checked){
-				//Not sure if this is the way to access the label element.
-				$("this").next().css("color","green");
-				$("this").next().html += " (DONE)";
-			} else {
-				$("this").next().css("color","green");
-				$("this").next().html = $("this").next().text().replace(" (DONE)", "");
-			}
-		}
 
-		jQuery.each(function() {
-  			//checkBoxesArray[val].click(function(){
-  			//	colorChange;
-  			//});
-  			checkBoxesArray[val].click(colorChange);
- 			return ( val > checkBoxesArray.length);
-		});
+        function createNewTodo() {
 
-		$("#createNewItem").keypress(function(e) {
-   		 	if(e.which == 13) {
-        		clickOnNewButton(); //Not sure if this is the correct way to call a function.
-        	}
+                //The attribute method and the color changing doesn't work, but everything else works.
+                var userInput = $("#createNewItemInput").val();
+                var labelElement =  $('<label>'+userInput+'</label>').css("color","white");
+                var newCheckBox = $("<input type='checkbox'></input>");
+                var br = $("<br>");
+                $('#checkBoxForm').append(br);
+                $('#checkBoxForm').append(newCheckBox);
+                $('#checkBoxForm').append(labelElement)
+                // $('#checkBoxForm').append(document.createTextNode(" " + userInput));
+                $("#createNewItemInput").val("");
+        }
+
+		$("#createNewItemInput").keypress(function(e){
+            if(e.which == 13) {
+                createNewTodo()
+            }
         });
-
-        var clickOnNewButton = function(){
-        	//The attribute method and the color changing doesn't work, but everything else works.
-        	var labelElement =  $('<label></label>').attr("style", "color:white");
-        	var newCheckBox = $("<input type='checkbox' onclick='colorChange()'></input>");
-			var userInput = $("#createNewItem").val();
-			var br = $("<br>");
-			$('#checkBoxForm').append(br);
-			$('#checkBoxForm').append(newCheckBox);
-			$('#checkBoxForm').append(labelElement)
-			$('#checkBoxForm').append(document.createTextNode(" " + userInput));
-			$("#createNewItem").val("");
-        };
+        $('#newButton').click(createNewTodo)
 
         var clickOnBackgroundButton = function(){
-        	//Code to be written
+            //Code to be written
         };
 
-        $('#newButton').on('click', clickOnNewButton);
 		
 
         //Used bind, but realized bind was deprecated in jQuery 3.0
