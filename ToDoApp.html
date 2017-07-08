@@ -1,98 +1,74 @@
 <!DOCTYPE html>
 
-
 <html>
-	<style>
-		body {
-	  		font-family: calibri;
-	  		color: blue;
-	  		border: ridge 1px blue;
-	 		padding: 10px;
-	  		background-color: white;
-		}
-		#finishedButton, #backgroundColor {
-			text-align: center;
-		}
-	</style>
-	<body id = "body">
-		<h1> TO DO APP </h1>
-		<h2> What you need to do today: </h2>
-		<form id = "checkBoxForm">
-			<input type = "checkbox" onClick = "clickOnCheck1()"> <label id = "select1"> Write some HTML code </label> <br>
-			<input type = "checkbox"  onClick = "clickOnCheck2()"> <label id = "select2"> Go shopping </label> <br>
-			<input type = "checkbox" onClick = "clickOnCheck3()"> <label id = "select3">  Write a 500 page essay </label> <br>
+<head>
+    <link href="http://cdn.metroui.org.ua/css/metro.min.css" rel="stylesheet">
+    <link href="http://cdn.metroui.org.ua/css/metro-colors.min.css" rel="stylesheet">
+    <link href="http://cdn.metroui.org.ua/css/metro-schemes.min.css" rel="stylesheet">
+    <link href="http://cdn.metroui.org.ua/css/metro-icons.min.css" rel="stylesheet">
+    <link href="http://cdn.metroui.org.ua/css/metro-responsive.min.css" rel="stylesheet">
+    <link href="http://cdn.metroui.org.ua/css/metro-rtl.min.css " rel="stylesheet"> 
+    <style>
+    	body {
+    		padding: 10px;
+    	}
+    	#checkBoxForm {
+    		border: ridge 1px green;
+    		padding: 10px;
+    		width: 400px;
+    	}
+    	#select1, #select2, #select3 {
+    		color: white;
+    	} 
+    </style>
+</head>
+	<body id="body" >
+		<h1 class = "ol-blue"> To-do App</h1>
+		<br>
+		<h2 class = "bd-blue"> What you need to do today: </h2>
+		<br>
+		<form id = "checkBoxForm" class = "bg-blue bg-active-lightBlue">
+			<input type = "checkbox"> <label id = "select1"> Write some HTML code </label> <br>
+			<input type = "checkbox"> <label id = "select2"> Go shopping </label> <br>
+			<input type = "checkbox"> <label id = "select3">  Write a 500 page essay </label> 
 		</form>
 		<br>
-		<form>
-			<label> Create new To-Do Item </label> <input id = "createNewItem" type = "text">
-			<button type = "button" id = "newButton"> Create </button>
-		</form>
+			<label> Create new To-Do Item </label>
+			<div class="input-control text">
+   				 <input type="text" id="createNewItem" placeholder="Type your to-do item here">
+			</div>
+			<button type = "button" id = "newButton" class = "button rounded"> Create </button>
 		<br>
-		<button type = "button" id = "backgroundButton"> Randomize background color</button> <br>
-		
-
+		<br>
+		<button type = "button" id = "backgroundButton" class = "button bg-blue bg-active-darkBlue fg-white"> Randomize background color</button> <br>	    
+		<br>
+		<p> Created using Metro UI CSS</p>
 	</body>
 	<script>
-		var backgroundButton = document.getElementById("backgroundButton");
+		/**var backgroundButton = document.getElementById("backgroundButton");
 		var newButton = document.getElementById("newButton");
 		var body = document.getElementById("body");
-
-		//Array of colors for the randomizer to select.
+		var checkBoxesArray = document.querySelectorAll("input[type='checkbox']");
+		var arrayOfLabels = document.getElementById('checkBoxForm').getElementsByTagName('label');
 		var colorArray = ["white","green","red","yellow"];
-
-		//Last number picked by the randomize function.  Page background starts out as white so it is 0.
 		var lastNumberPicked = 0;
 
-		//I couldn't find a more efficient way of doing it, so...
+		var colorChange = function(){
+			var myLabel = this.nextElementSibling;
+			if(this.checked){
+				myLabel.style.color = "green";
+				myLabel.innerHTML += " (DONE)";
+			} else {
+				myLabel.style.color = "white";
+				myLabel.innerHTML = myLabel.innerHTML.replace(" (DONE)", " ");
+			}
+		}
 
-		var select1 = document.getElementById("select1");
-		var select2 = document.getElementById("select2");
-		var select3 = document.getElementById("select3");
+		for (var i = 0;i<checkBoxesArray.length;i++){
+			checkBoxesArray[i].onclick = colorChange;	
+		}
 
-		var checkClick1 = false;
-		var checkClick2 = false;
-		var checkClick3 = false;
 		
-		var select1String = select1.innerHTML.toString();
-		var select2String = select2.innerHTML.toString();
-		var select3String = select3.innerHTML.toString();
-
-		var clickOnCheck1 = function(){
-			if(checkClick1 === false){
-				select1.innerHTML += "(DONE)";
-				select1.style.color = "green";
-				checkClick1 = true;
-			} else {
-				select1.innerHTML = select1String;
-				select1.style.color = "blue";
-				checkClick1 = false;
-			}
-		};
-
-		var clickOnCheck2 = function(){
-			if(checkClick2 === false){
-				select2.innerHTML += " (DONE)"
-				select2.style.color = "green";
-				checkClick2 = true;
-			} else {
-				select2.innerHTML = select2String;
-				select2.style.color = "blue";
-				checkClick2 = false;
-			}
-		};
-
-		var clickOnCheck3 = function(){
-			if(checkClick3 === false){
-				select3.innerHTML += " (DONE)"
-				select3.style.color = "green";
-				checkClick3 = true;
-			} else {
-				select3.innerHTML = select3String;
-				select3.style.color = "blue";
-				checkClick3 = false;
-			}
-		};
-
 		//Function now ensures that you pick a different number/color every time.
 		var clickOnBackgroundButton = function(){
 
@@ -108,10 +84,10 @@
 			}
 		};
 
-		var createNewCheckbox = function(id){
+		var createNewCheckbox = function(){
   			var inputElement = document.createElement("input");
   			inputElement.type = 'checkbox';
-  			inputElement.id = id;
+  			inputElement.onclick = colorChange;
    			return inputElement;
 		};
 
@@ -120,21 +96,88 @@
 			var aNewBreak = document.createElement("br");
 			var userInput = document.getElementById("createNewItem").value;
 			labelElement.innerHTML = " " + userInput;
-			labelElement.appendChild(aNewBreak);
-			checkBoxForm.appendChild(createNewCheckbox("hi"));
+			labelElement.style.color = "white";
+			checkBoxForm.appendChild(createNewCheckbox());
 			checkBoxForm.appendChild(labelElement);
-			if(hi.checked === true){
-				labelElement.style.color = "green";
-				labelElement.innerHTML = labelElement.innerHTML + "(DONE)";
-			} else {
-				labelElement.innerHTML = " " + document.getElementById("createNewItem").value;
+			checkBoxForm.appendChild(aNewBreak);
+			document.getElementById("createNewItem").value = "";
+		};
+
+		var enterFunction = function(event){
+			var whatWasPressed = event.which || event.KeyCode;
+			if(whatWasPressed === 13){
+				clickOnNewButton();
 			}
 		};
 
 
 		//Add the event listener
 		backgroundButton.addEventListener('click', clickOnBackgroundButton);
-		newButton.addEventListener('click',clickOnNewButton);
+		newButton.addEventListener('click',clickOnNewButton);**/
+
+	</script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<script>
+		var backgroundButton = $("#backgroundButton")[0];
+		var newButton = $("#newButton")[0];
+		var body = $("#body")[0];
+		var checkBoxesArray = $("input[type='checkbox']");
+		var arrayOfLabels = $("#checkBoxForm label");
+		var colorArray = ["white","green","red","yellow"];
+		var lastNumberPicked = 0;
+
+		console.log(checkBoxesArray);
+		console.log(arrayOfLabels);
+
+
+		var colorChange = function(){
+			if(this.checked){
+				//Not sure if this is the way to access the label element.
+				$("this").next().css("color","green");
+				$("this").next().html += " (DONE)";
+			} else {
+				$("this").next().css("color","green");
+				$("this").next().html = $("this").next().text().replace(" (DONE)", "");
+			}
+		}
+
+		jQuery.each(function() {
+  			//checkBoxesArray[val].click(function(){
+  			//	colorChange;
+  			//});
+  			checkBoxesArray[val].click(colorChange);
+ 			return ( val > checkBoxesArray.length);
+		});
+
+		$("#createNewItem").keypress(function(e) {
+   		 	if(e.which == 13) {
+        		clickOnNewButton(); //Not sure if this is the correct way to call a function.
+        	}
+        });
+
+        var clickOnNewButton = function(){
+        	//The attribute method and the color changing doesn't work, but everything else works.
+        	var labelElement =  $('<label></label>').attr("style", "color:white");
+        	var newCheckBox = $("<input type='checkbox' onclick='colorChange()'></input>");
+			var userInput = $("#createNewItem").val();
+			var br = $("<br>");
+			$('#checkBoxForm').append(br);
+			$('#checkBoxForm').append(newCheckBox);
+			$('#checkBoxForm').append(labelElement)
+			$('#checkBoxForm').append(document.createTextNode(" " + userInput));
+			$("#createNewItem").val("");
+        };
+
+        var clickOnBackgroundButton = function(){
+        	//Code to be written
+        };
+
+        $('#newButton').on('click', clickOnNewButton);
+		
+
+        //Used bind, but realized bind was deprecated in jQuery 3.0
+		$("#backgroundButton").on( "click", clickOnBackgroundButton ); 
 
 	</script>
 </html>
