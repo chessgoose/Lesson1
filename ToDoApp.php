@@ -28,15 +28,29 @@
 		<br>
 		<form id = "checkBoxForm" class = "bg-blue">
 			<!-- It works now! When we dynamically added the label, we didn't have a space between -->
-			<input type="checkbox">
-            <label id="select1">Write some HTML code</label>
-            <br>
-			<input type="checkbox">
-            <label id="select2">Go shopping</label>
-            <br>
-			<input type="checkbox">
-            <label id="select3">Write a 500 page essay</label>
-            <br>
+
+            <?php
+                $todos = [
+
+                    "Write some HTML code",
+                    "Go shopping",
+                    "Write a 500 page essay",
+                    "Do stuff",
+                    "Write PHP",
+                    "Write Python",
+                    "Learn jQuery",
+                    "Make a scouting app"
+
+                ];
+
+                foreach($todos as $todo){
+                    
+                    echo '<input type="checkbox">' . PHP_EOL;
+                    echo "<label>$todo</label>" . PHP_EOL;
+                    echo "<br>" . PHP_EOL;
+                }
+
+            ?>
 		</form>
 		<br>
 			<label> Create new To-Do Item </label>
