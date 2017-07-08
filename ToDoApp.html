@@ -27,14 +27,16 @@
 		<h2 class = "bd-blue"> What you need to do today: </h2>
 		<br>
 		<form id = "checkBoxForm" class = "bg-blue bg-active-lightBlue">
-			<input type = "checkbox" />
-            <label id = "select1">Write some HTML code</label>
+			<!-- It works now! When we dynamically added the label, we didn't have a space between -->
+			<input type="checkbox">
+            <label id="select1">Write some HTML code</label>
             <br>
-			<input type = "checkbox" />
-            <label id = "select2">Go shopping</label>
+			<input type="checkbox">
+            <label id="select2">Go shopping</label>
             <br>
-			<input type = "checkbox" />
-            <label id = "select3">Write a 500 page essay</label> 
+			<input type="checkbox">
+            <label id="select3">Write a 500 page essay</label>
+            <br>
 		</form>
 		<br>
 			<label> Create new To-Do Item </label>
@@ -150,28 +152,33 @@
                 var labelElement =  $('<label>'+userInput+'</label>').css("color","white");
                 var newCheckBox = $("<input type='checkbox'></input>");
                 var br = $("<br>");
-                $('#checkBoxForm').append(br);
                 $('#checkBoxForm').append(newCheckBox);
-                $('#checkBoxForm').append(labelElement)
+                $('#checkBoxForm').append(labelElement);
+                $('#checkBoxForm').append(br);
                 // $('#checkBoxForm').append(document.createTextNode(" " + userInput));
                 $("#createNewItemInput").val("");
         }
 
 		$("#createNewItemInput").keypress(function(e){
             if(e.which == 13) {
-                createNewTodo()
+                createNewTodo();
             }
         });
-        $('#newButton').click(createNewTodo)
 
-        var clickOnBackgroundButton = function(){
-            //Code to be written
+        function clickOnBackgroundButton() {
+        	var pickRandom = Math.floor(Math.random() * 4);
+        	console.log(pickRandom);
+			if(pickRandom !== lastNumberPicked) {
+				$('#body').css("background-color", colorArray[pickRandom]);
+				lastNumberPicked = pickRandom;
+			} else {
+				clickOnBackgroundButton();
+			}
         };
 
-		
+        $('#newButton').click(createNewTodo)
 
-        //Used bind, but realized bind was deprecated in jQuery 3.0
-		$("#backgroundButton").on( "click", clickOnBackgroundButton ); 
+        $('#backgroundButton').click(clickOnBackgroundButton);
 
 	</script>
 </html>
