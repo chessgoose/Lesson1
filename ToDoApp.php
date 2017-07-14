@@ -14,7 +14,7 @@
     		width: 400px;
     	}
     	#checkBoxForm label {
-    		color: white;
+    		color: black;
     	} 
         #checkBoxForm input[type="checkbox"] {
             margin-right: 5px
@@ -30,8 +30,9 @@
 			<!-- It works now! When we dynamically added the label, we didn't have a space between -->
 
             <?php
-                $todos = [
 
+
+                $todos = array(
                     "Write some HTML code",
                     "Go shopping",
                     "Write a 500 page essay",
@@ -40,15 +41,24 @@
                     "Write Python",
                     "Learn jQuery",
                     "Make a scouting app"
+                );
 
-                ];
+                shuffle($todos);
 
-                foreach($todos as $todo){
-                    
-                    echo '<input type="checkbox">' . PHP_EOL;
-                    echo "<label>$todo</label>" . PHP_EOL;
-                    echo "<br>" . PHP_EOL;
-                }
+                $random_keys=array_rand($todos,5);
+
+                $random_number = rand(0,5);
+
+              	$rand_keysLength=count($random_keys);
+ 
+               	for ($x=0; $x<$rand_keysLength; $x++) {
+     				echo '<input type="checkbox">'. PHP_EOL;
+     				echo '<label>';
+                    echo  $todos[$random_keys[$x]];
+                    echo  '</label>'.PHP_EOL;
+                    echo '<br>' . PHP_EOL;
+				}
+
 
             ?>
 		</form>
@@ -149,7 +159,7 @@
                 var curText = $(this).next().text()
                 $(this).next().text(curText +" (DONE)");
             } else {
-                $(this).next().css("color","white");
+                $(this).next().css("color","black");
                 var curText = $(this).next().text()
                 $(this).next().text(curText.replace(" (DONE)", ""));
             }
@@ -163,7 +173,7 @@
 
                 //The attribute method and the color changing doesn't work, but everything else works.
                 var userInput = $("#createNewItemInput").val();
-                var labelElement =  $('<label>'+userInput+'</label>').css("color","white");
+                var labelElement =  $('<label>'+userInput+'</label>').css("color","black");
                 var newCheckBox = $("<input type='checkbox'></input>");
                 var br = $("<br>");
                 $('#checkBoxForm').append(newCheckBox);
